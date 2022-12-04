@@ -3,9 +3,8 @@ package days
 class Day3 : Day(3) {
 
     override fun partOne(): Any {
-        return inputList.map {
-            it.take(it.length / 2) to it.takeLast(it.length / 2)
-        }.map { groups -> groups.first[groups.first.indexOfAny(groups.second.toCharArray())] }
+        return inputList.map { it.take(it.length / 2) to it.takeLast(it.length / 2) }
+            .map { groups -> groups.first[groups.first.indexOfAny(groups.second.toCharArray())] }
             .sumOf { Alphabet.valueOf(it.toString()).ordinal + 1 }
 
     }
@@ -13,11 +12,11 @@ class Day3 : Day(3) {
     override fun partTwo(): Any {
         return inputList.chunked(3)
             .map { group ->
-                val one = group[0].toList().distinct()
-                val two = group[1].toList().distinct()
-                val three = group[2].toList().distinct()
+                val one = group.component1().toList().distinct()
+                val two = group.component2().toList().distinct()
+                val three = group.component3().toList().distinct()
 
-                one.first {two.contains(it) && three.contains(it) }
+                one.first { two.contains(it) && three.contains(it) }
             }
             .sumOf { Alphabet.valueOf(it.toString()).ordinal + 1 }
     }

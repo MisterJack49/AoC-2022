@@ -2,7 +2,7 @@ package days
 
 class Day4 : Day(4) {
 
-    val reg = Regex("(\\d+)-(\\d+),(\\d+)-(\\d+)")
+    private val reg = Regex("(\\d+)-(\\d+),(\\d+)-(\\d+)")
     override fun partOne(): Any {
         return inputList.mapNotNull { reg.find(it) }
             .map {
