@@ -1,5 +1,13 @@
 package days
 
+private typealias Section = Pair<Int, Int>
+
+private fun Section.inbound(other: Section) =
+    this.first in other.first..other.second && this.second in other.first..other.second
+
+private fun Section.overlap(other: Section) =
+    this.first in other.first..other.second || this.second in other.first..other.second
+
 class Day4 : Day(4) {
 
     private val reg = Regex("(\\d+)-(\\d+),(\\d+)-(\\d+)")
@@ -19,11 +27,3 @@ class Day4 : Day(4) {
             }.count { it.first.overlap(it.second) or it.second.overlap(it.first) }
     }
 }
-
-private typealias Section = Pair<Int, Int>
-
-private fun Section.inbound(other: Section) =
-    this.first in other.first..other.second && this.second in other.first..other.second
-
-private fun Section.overlap(other: Section) =
-    this.first in other.first..other.second || this.second in other.first..other.second
