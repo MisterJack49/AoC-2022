@@ -1,8 +1,10 @@
 package days
 
+import common.Coordinates
+
 class Day8 : Day(8) {
     override fun partOne(): Any {
-        val forest = inputList.mapIndexed { y, s ->
+        val forest: Forest = inputList.mapIndexed { y, s ->
             s.mapIndexed { x, c ->
                 Tree(c.digitToInt(), Coordinates(x, y))
             }
@@ -19,7 +21,7 @@ class Day8 : Day(8) {
     }
 
     override fun partTwo(): Any {
-        val forest = inputList.mapIndexed { y, s ->
+        val forest: Forest = inputList.mapIndexed { y, s ->
             s.mapIndexed { x, c ->
                 Tree(c.digitToInt(), Coordinates(x, y))
             }
@@ -48,19 +50,21 @@ data class Tree(
     }
 }
 
-fun List<Tree>.getSize(): Coordinates = last().coordinates
+typealias Forest = List<Tree>
 
-fun List<Tree>.getEdge(): List<Tree> =
+fun Forest.getSize(): Coordinates = last().coordinates
+
+fun Forest.getEdge(): Forest =
     filter {
         it.coordinates.x == 0 || it.coordinates.y == 0 ||
                 it.coordinates.x == getSize().x || it.coordinates.y == getSize().y
     }.copy()
 
-fun List<Tree>.copy() = map { it.copy() }
+fun Forest.copy() = map { it.copy() }
 
-fun List<Tree>.getInnerForest(): List<Tree> = copy() - getEdge().toSet()
+fun Forest.getInnerForest(): Forest = copy() - getEdge().toSet()
 
-fun List<Tree>.getTreesAround(coordinates: Coordinates): Map<Orientation, List<Tree>> =
+fun Forest.getTreesAround(coordinates: Coordinates): Map<Orientation, Forest> =
     Orientation.values().associateWith { orientation ->
         when (orientation) {
             Orientation.NORTH -> {
@@ -79,10 +83,10 @@ fun List<Tree>.getTreesAround(coordinates: Coordinates): Map<Orientation, List<T
                 filter { it.coordinates.x < coordinates.x && it.coordinates.y == coordinates.y }.copy()
             }
         }
-    
+
     }
 
-fun List<Tree>.getViewableFrom(tree: Tree) =
+fun Forest.getViewableFrom(tree: Tree) =
     getTreesAround(tree.coordinates).map { (orientation, trees) ->
         when (orientation) {
             Orientation.NORTH, Orientation.WEST -> {
@@ -94,12 +98,6 @@ fun List<Tree>.getViewableFrom(tree: Tree) =
             }
         }
     }
-
-data class Coordinates(val x: Int, val y: Int) {
-    override fun toString(): String {
-        return "($x,$y)"
-    }
-}
 
 enum class Orientation { NORTH, EAST, SOUTH, WEST }
 
