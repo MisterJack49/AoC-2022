@@ -15,7 +15,15 @@ class Day10Test {
 
     @Test
     fun testPartTwo() {
-        assertThat(day.partTwo(), `is`(1))
+        val expected = listOf(
+            "##..##..##..##..##..##..##..##..##..##..".toList(),
+            "###...###...###...###...###...###...###.".toList(),
+            "####....####....####....####....####....".toList(),
+            "#####.....#####.....#####.....#####.....".toList(),
+            "######......######......######......####".toList(),
+            "#######.......#######.......#######.....".toList()
+        )
+        assertThat(day.partTwo(), `is`(expected))
     }
 
     @Test
@@ -28,6 +36,5 @@ class Day10Test {
         assertThat(sut.register, `is`(-1))
 
     }
-
 
 }
